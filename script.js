@@ -229,11 +229,11 @@ priceMax.addEventListener("change", function() {
 
 //filter results - return an array of filtered products
 function filterProperties() {
-    const filteredProperties = properties.filter(property => {
+    const filteredProperties = properties.filter(property => { //filter creates an array
         //check if location matches
         const propertyLocation = property.location.toLowerCase();
         const filterValue = locationFilter.value.toLowerCase();
-        //check that it doesn't match, so ti returns false and doesn't add to the array
+        //check that it doesn't match, so it returns false and doesn't add to the array
         if (filterValue && !propertyLocation.includes(filterValue)) {
             return false;  //if property locations doesn't include filter value return false
         } 
@@ -249,7 +249,7 @@ function filterProperties() {
         }
 
         //check if price falls within specified range
-        const priceValue = parseFloat(property.price.replace(/\$/g, '').replace(/,/g, '')); //removes $ and comma form price, makes the number a floating number
+        const priceValue = parseFloat(property.price.replace(/\$/g, '').replace(/,/g, '')); //removes $ and comma from price, makes the number a floating number
         const minPrice = parseFloat(priceMin.value);
         const maxPrice = parseFloat(priceMax.value);
         if ((minPrice && priceValue < minPrice) || (maxPrice && priceValue > maxPrice)) {
@@ -267,11 +267,29 @@ function filterProperties() {
 
 
 //sort results - sort by price - lowest to highest
+function sortPropertiesByPriceLowToHigh (properties) {
+    return properties.sort((a,b) => {
+        const priceA = parseFloat(a.price.replace(/\$/g, '').replace(/,/g, ''));
+        const priceB = parseFloat(b.price.replace(/\$/g, '').replace(/,/g, ''));
+        return priceA - priceB;
+    });
+}
+
+function sortPropertiesByPriceHighToLow (properties) {
+    return properties.sort((a,b) => {
+        const priceA = parseFloat(a.price.replace(/\$/g, '').replace(/,/g, ''));
+        const priceB = parseFloat(b.price.replace(/\$/g, '').replace(/,/g, ''));
+        return priceB - priceA;
+    });
+}
+
 
 
 //filter and populate results
 function filterAndPopulateResults () {
     const filteredProperties = filterProperties();
+    //sort properties before populating
+    const sortedProperties = sortPropertiesByPriceLowToHigh(filteredProperties);
     populateResults(filteredProperties);
 }
 
@@ -318,11 +336,12 @@ function populateResults(filteredResults) {
                 </div>
             `;
             resultsDiv.innerHTML += propertyCardHTML;
+            attachModalToImages() // attaching event listener straight after population
         });
     }
 }
 
-// initial populate
+
 
 
 
@@ -338,3 +357,58 @@ const swiper = new Swiper('.swiper', {
       clickable: true,
     },
   });
+
+
+  //modal
+  //attach click to imgs and opens modal
+  function attachModalToImages() {
+    //get all the images
+    const images = document.querySelectorAll(".property-image");
+    //get the details modal
+    const detailsModal = document.getElementById("detailsModal");
+    //run a for loop over the images array to add click event to each image
+    for (let i = 0; i < images.length; i++) {
+        images[i].addEventListener("click", function(event) {
+            console.log("img workin");
+            detailsModal.showModal(); //open the ol modal
+            //call close function
+            closeDetailsModal();
+            //populate the modals with correct info
+            console.log(event.target.getAttribute("value"));
+            populateModal(event.target.getAttribute("value"));
+        });
+    }
+  }
+
+  //close modal
+function closeDetailsModal() {
+    //get close button
+    const close = document.getElementById("closeModal");
+    //get modal too
+    const detailsModal = document.getElementById("detailsModal");
+    //click event to close modal
+    close.addEventListener("click", function() {
+        console.log("close workin");
+        detailsModal.close();
+    });
+}
+
+//populate modal function
+
+function populateModal(imageId) {
+    //get the modal
+    const detailsModal = document.querySelector(".modal-contents");
+    detailsModal.innerHTML = `
+            <img src="${properties[imageId - 1].image}" alt="${properties[imageId - 1].name} image 1">
+            <h2>${properties[imageId - 1].name}</h2>
+            <p>${properties[imageId - 1].location}</p>
+            <h4>${properties[imageId - 1].price}</h4>
+            <div class="modal-amenities">
+                <p>${properties[imageId - 1].bedrooms} <i class="fa-solid fa-bed"></i></p>
+                <p>${properties[imageId - 1].bathrooms} <i class="fa-solid fa-bath"></i></p>
+            </div>
+            <p class="property-description">${properties[imageId - 1].description}</p>
+            <button class="booking-button">Enquire Now</button>
+    `
+}
+
