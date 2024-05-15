@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-
 * {
     padding: 0;
     margin: 0;
@@ -8,6 +7,7 @@
     font-family: Poppins, sans-serif;
 }
 
+/* TOP SECTION */
 header {
     display: flex;
     justify-content: center;
@@ -18,18 +18,18 @@ header {
     background-position: center;
     background-size: cover;
 }
-
 header h1 {
     font-size: 6em;
     font-weight: 700;
     letter-spacing: 2px;
 }
+/* END TOP SECTION */
 
+/* NAV FILTERS */
 .filter-container {
     display: flex;
     justify-content: center;
     gap: 40px;
-    margin-bottom: 24px;
     padding: 30px 0;
     background-color: #1f1f1f;
 }
@@ -51,12 +51,49 @@ select {
     border: 1px solid #1f1f1f;
 }
 
-.sorting-text {
-    text-align: center;
-    font-weight: 300;
-    font-size: 1em;
+/* END NAV FILTERS */
+
+/* SORTING BUTTONS */
+.sorting-container {
+    background-color: #1f1f1f;
+    padding: 30px 0;
 }
 
+.sorting-container p {
+    text-align: center;
+    color: white;
+}
+
+.sorting-btn-container {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.sorting-button {
+    border: 1px solid white;
+    min-width: 140px;
+    padding: 12px 16px;
+    font-size: 16px;
+    color: white;
+    border-radius: 16px;
+    background-color: #1f1f1f;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.sorting-button:hover {
+    background-color: white;
+    color: #1f1f1f;
+    transition: all 0.3s ease;
+}
+
+
+/* end sorting buttons */
+
+/* RESULTS GRID */
 .results {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -128,6 +165,9 @@ select {
     font-size: 16px;
 }
 
+/* END GRID */
+
+
 /* Swiper */
 .swiper {
     width: 100%;
@@ -148,6 +188,7 @@ select {
     width: 16px;
     height: 16px;
 }
+/* END SWIPER */
 
 /* modal styling */
 dialog {
@@ -181,10 +222,15 @@ body.modal-open {
     border: none;
     background-color: #33924A;
     border-radius: 50%;
-    padding: 4px 12px;
+    padding: 8px 12px;
     color: white;
-    font-size: 24px;
+    font-size: 16px;
     text-decoration: none;
+    cursor: pointer;
+}
+
+#closeModal:hover {
+    background-color: red;
 }
 
 .modal-contents {
@@ -234,7 +280,17 @@ body.modal-open {
     border: none;
     color: white;
     font-size: 16px;
+    transition: all 0.1s ease;
 }
+
+.booking-button:hover {
+    background-color: #5bc174;
+    cursor: pointer;
+    scale: 1.1;
+    transition: all 0.1s ease;
+}
+
+/* END MODAL STYLING */
 
 /* media queries */
 
